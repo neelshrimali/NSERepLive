@@ -146,7 +146,9 @@ with st.empty():
                     df.drop(['impliedVolatility'], axis=1, inplace=True)
                     #df.dropna(subset=['lastPrice'], how='any', inplace=True)
                     #df = df[df['lastPrice'] != 0]
-                    
+                    with placeholder.container():
+                        st.dataframe(df)
+
                     Ni_CurrentWeek = df[df['expiryDate'].isin(expiry_date1)]
                     Ni_NextWeek = df[df['expiryDate'].isin(expiry_date2)]
                     Ni_MonthExpiry = df[df['expiryDate'].isin(expiry_date3)]
