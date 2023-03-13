@@ -375,6 +375,8 @@ while True:
     # todayd = datetime.datetime.today().date()
     # if Timestamp == todayd:
         #Date matched - Report will be available soon.  
+    with placeholder.container():
+            st.write("App is started")
     schedule.run_pending()
     time.sleep(60)
         
