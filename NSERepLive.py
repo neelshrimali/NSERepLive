@@ -106,7 +106,8 @@ with st.empty():
 
         except Exception as e:
             print(e, " Func Error -> Data morning one time!!")
-
+    
+    @st.cache_data
     def funcGetDataContinues():    
             # if len(Ni_CurrentWeekFix.index) > 0 and len(Ni_NextWeekFix.index) > 0 and len(Ni_MonthExpiryFix.index) > 0:
                 # global Ni_CurrentWeek
@@ -115,6 +116,8 @@ with st.empty():
                 try:   
                     session = requests.Session()
                     data = session.get(url, headers=headers).json()["records"]["data"]
+                    
+                    # data = session.get(url, headers=headers).json()["records"]["data"]
                     ocdata = []
                     for i in data:
                         for j,k in i.items():
@@ -123,6 +126,10 @@ with st.empty():
                                 info["instrumentType"] = j
                                 ocdata.append(info)
                     df = pd.DataFrame(ocdata)
+
+                    with placeholder.container():
+                        st.dataframe(df)
+
                     df['implied_volatility'] = 0.0
                     df['expiryDate']= pd.to_datetime(df['expiryDate'])
                     df['Timestamp'] = session.get(url="https://www.nseindia.com/api/option-chain-indices?symbol=NIFTY", headers=headers).json()["records"]["timestamp"]
@@ -371,7 +378,7 @@ with st.empty():
     # schedule.every().day.at("12:14").do(funcGetDataMorning)
     # schedule.every(1).minutes.do(Main)
     # NewTimestampNo = datetime.datetime.now()
-    @repeat(every(60).seconds)
+    @repeat(every(10).seconds)
     def refresh_data():
           st.write("Code Refreshing...")
           Main()
