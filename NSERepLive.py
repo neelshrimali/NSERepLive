@@ -3,7 +3,7 @@ import requests
 import numpy as np
 import pandas as pd
 import datetime
-import schedule
+from schedule import every, repeat, run_pending
 import time
 import py_vollib_vectorized
 from py_vollib_vectorized import get_all_greeks
@@ -364,21 +364,30 @@ def calculate_Final_Report(Ni_CurrentWeek,Ni_NextWeek,Ni_MonthExpiry,Ni_CurrentW
         print(e, " Func Error- Final report!!")
 
 # based on timestamp changed -> 1st run time will 9.20(should be today's date) then other 9.21
-schedule.every().day.at("12:14").do(funcGetDataMorning)
-schedule.every(1).minutes.do(Main)
+# schedule.every().day.at("12:14").do(funcGetDataMorning)
+# schedule.every(1).minutes.do(Main)
 # NewTimestampNo = datetime.datetime.now()
 
-while True:
-    # session = requests.Session()    
-    # TimestampNo = session.get(url="https://www.nseindia.com/api/option-chain-indices?symbol=NIFTY", headers=headers).json()["records"]["timestamp"]
-    # Timestamp = datetime.datetime.strptime(TimestampNo,'%d-%b-%Y %H:%M:%S').date()
-    # todayd = datetime.datetime.today().date()
-    # if Timestamp == todayd:
-        #Date matched - Report will be available soon.  
-    with placeholder.container():
-            st.write("App is started")
-    schedule.run_pending()
-    time.sleep(60)
+with st.empty():
+    @repeat(every(60).seconds)
+    def refresh_data():
+        Main()
+
+    while True:
+        run_pending()
+        time.sleep(1)
+
+# while True:
+#     # session = requests.Session()    
+#     # TimestampNo = session.get(url="https://www.nseindia.com/api/option-chain-indices?symbol=NIFTY", headers=headers).json()["records"]["timestamp"]
+#     # Timestamp = datetime.datetime.strptime(TimestampNo,'%d-%b-%Y %H:%M:%S').date()
+#     # todayd = datetime.datetime.today().date()
+#     # if Timestamp == todayd:
+#         #Date matched - Report will be available soon.  
+#     # with placeholder.container():
+#     #         st.write("App is started")
+#     schedule.run_pending()
+#     time.sleep(60)
         
         
      
