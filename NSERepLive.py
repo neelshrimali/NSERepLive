@@ -43,9 +43,9 @@ with st.empty():
         funcGetDataContinues()
 
     def funcGetDataMorning():
-        global Ni_CurrentWeekFix
-        global Ni_NextWeekFix
-        global Ni_MonthExpiryFix
+        # global Ni_CurrentWeekFix
+        # global Ni_NextWeekFix
+        # global Ni_MonthExpiryFix
         
         try:   
             session = requests.Session()
@@ -109,9 +109,9 @@ with st.empty():
 
     def funcGetDataContinues():    
             # if len(Ni_CurrentWeekFix.index) > 0 and len(Ni_NextWeekFix.index) > 0 and len(Ni_MonthExpiryFix.index) > 0:
-                global Ni_CurrentWeek
-                global Ni_NextWeek
-                global Ni_MonthExpiry
+                # global Ni_CurrentWeek
+                # global Ni_NextWeek
+                # global Ni_MonthExpiry
                 try:   
                     session = requests.Session()
                     data = session.get(url, headers=headers).json()["records"]["data"]
