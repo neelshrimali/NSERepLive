@@ -99,7 +99,9 @@ def funcGetDataMorning():
         
         print("\033c", end="")
         print("Morning file run successfully!")
-              
+        with placeholder.container():
+         st.write("Morning file run successfully!")
+
     except Exception as e:
         print(e, " Func Error -> Data morning one time!!")
 
@@ -172,7 +174,6 @@ def funcGetDataContinues():
         #     print("Morning file has no data.")
         #     funcGetDataMorning()
     
-
 def calculate_implied_volatility(df):
     
     try:
@@ -208,6 +209,14 @@ def calculate_option_greeks(df):
         print(e , "- greek cal func")  
 
 def calculate_Final_Report(Ni_CurrentWeek,Ni_NextWeek,Ni_MonthExpiry,Ni_CurrentWeekFix,Ni_NextWeekFix,Ni_MonthExpiryFix):     
+    if Ni_CurrentWeek.empty and Ni_NextWeek.empty and Ni_MonthExpiry.empty:
+        with placeholder.container():
+          st.write("Second Data Frame Is Blank So Calling funcGetDataContinues() Again!")
+        funcGetDataContinues()
+    if Ni_CurrentWeekFix.empty and Ni_NextWeekFix.empty and Ni_MonthExpiryFix.empty:
+        with placeholder.container():
+            st.write("Morning Data Frame Is Blank So Calling funcGetDataContinues() Again!")
+        funcGetDataMorning()
     try:
         Ni_CurrentWeek['changeInVega'] = 0
         Ni_CurrentWeek['changeInOI'] = 0
@@ -327,6 +336,7 @@ def calculate_Final_Report(Ni_CurrentWeek,Ni_NextWeek,Ni_MonthExpiry,Ni_CurrentW
         dfMain = dfMain.replace(np.nan,0)
         dfCummMain = pd.DataFrame(cummData)
         dfCummMain = dfCummMain.replace(np.nan,0)
+       
         # clear_output()
         print("\033c", end="") 
         
