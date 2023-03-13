@@ -5,4 +5,4 @@ pandas
 datetime
 schedule
 py_vollib_vectorized
-streamlib
+streamlit
