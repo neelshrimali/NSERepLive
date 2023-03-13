@@ -4,5 +4,4 @@ numpy
 pandas
 datetime
 schedule
-time
 py_vollib_vectorized
